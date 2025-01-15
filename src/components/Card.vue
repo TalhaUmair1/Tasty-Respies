@@ -1,15 +1,16 @@
 <template>
-    <div class=" rounded-lg  overflow-hidden w-80 p-4">
-        <img :src="post.image" alt="Pizza Pepperoni" class="w-full h-40 rounded-lg object-cover mb-4">
-        <div class="p-4 rounded-lg bg-slate-200">
+    <router-link :to="`/recipe-detail/${post.id}`" class=" rounded-lg  overflow-hidden w-80 p-4">
+        <img :src="getImage(post.id, post.image)" alt="Pizza Pepperoni"
+            class="w-full h-40 rounded-lg object-cover mb-4">
+        <div class="p-4 rounded-lg bg-pink-100">
             <h2 class="font-bold text-xl mb-2">{{ post.title }}</h2>
             <p class="text-gray-700 text-base mb-4">{{ post.description }}</p>
             <div class="flex justify-between text-sm text-green-500">
-                <span>{{ post.category }}</span>
-                <span class="text-gray-500">{{ post.price }}</span>
+                <span>{{ post?.expand?.category?.name }}</span>
+                <span class="text-gray-500">{{ post.likes }}</span>
             </div>
         </div>
-    </div>
+    </router-link>
 </template>
 
 <script setup>
@@ -95,4 +96,10 @@ const categories = [
     "Recipes",
     "Recipes"
 ]
+
+const getImage = (id, imageId) => {
+    return `${import.meta.env.VITE_API_URL}/api/files/recipes/${id}/${imageId}?thumb=300x300`
+
+}
+
 </script>

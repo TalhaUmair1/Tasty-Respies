@@ -10,7 +10,7 @@
                             d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
                     </svg>
                 </div>
-                <input type="search" id="default-search"
+                <input type="search" id="default-search" v-model="search" @change="searchDish"
                     class="block w-full p-4 ps-10 text-sm text-white-900 border border-white-300 rounded-lg  "
                     placeholder="Search by Recipe Ingredients or KeyWords..." required />
                 <button type="submit"
@@ -23,5 +23,9 @@
 </template>
 
 <script setup>
-
+const search = ref('')
+const emit = defineEmits(['search'])
+const searchDish = () => {
+    emit('search', search.value)
+}
 </script>

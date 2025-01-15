@@ -49,4 +49,7 @@
 
 <script setup>
 
+const data = await pb.collection('pages').getOne('j2er6fh38byp6rh')
+    console.log(data)
+    about.value = data
 </script>

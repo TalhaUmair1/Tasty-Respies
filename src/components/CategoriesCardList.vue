@@ -5,27 +5,8 @@
 </template>
 
 <script setup>
-const categories = [
-    {
-        id: 1,
-        image: '/public/breakfast.jpeg',
-        title: 'Breakfast'
-    },
-    {
-        id: 2,
-        image: '/public/breakfast.jpeg',
-        title: 'Lunch'
-    },
-    {
-        id: 3,
-        image: '/public/breakfast.jpeg',
-        title: 'Dinner'
-    },
-    {
-        id: 4,
-        image: '/public/breakfast.jpeg',
-        title: 'Snacks'
-    },
 
-]
+const { categories } = defineProps({
+    categories: Array
+})
 </script>

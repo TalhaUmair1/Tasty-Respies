@@ -1,43 +1,38 @@
 <template>
     <div>
         <div class="bg-pink-500 text-white text-center py-20">
-            <h1 class="text-3xl font-bold">Easy Recipes</h1>
+            <h1 class="text-3xl font-bold"> Recipes</h1>
         </div>
     </div>
     <div class="flex">
-        <Sidebar></Sidebar>
-        <CardList :posts="posts"></CardList>
+        <Sidebar :categories="categories" @filterCategory="getPosts(category = $event, search = '')"
+            v-if="categories.length" @searchMeal="getPosts('', search = $event)" />
+        <CardList :posts="posts.items"></CardList>
     </div>
 </template>
 
 <script setup>
-const posts = [
-    {
-        id: 1,
-        image: '/pizza.jpg',
-        title: 'Pizza Pepperoni',
-        description:
-            'Pepperoni is an American variety of salami, made from cured pork and beef seasoned with paprika or other chili pepper.',
-        category: 'Main Dish',
-        price: '21',
-    },
-    {
-        id: 2,
-        image: '/sweet.jpg',
-        title: 'Sweet Sandwich',
-        description:
-            'Enjoy these toasted egg and cress club sandwiches as part of a summer family picnic.',
-        category: 'Sweet',
-        price: '17',
-    },
-    {
-        id: 3,
-        image: '/steak.jpg',
-        title: 'Steak Dinner',
-        description:
-            'A steak is a meat generally sliced across the muscle fibers.',
-        category: 'Main Dish',
-        price: '321',
-    },
-]
+import pb from '../utils/pocketClient';
+const posts = ref({})
+const categories = ref([])
+const getPosts = async (category = "", search = "") => {
+    const data = await pb.collection('recipeList').getList(1, 10, {
+        expand: 'category',
+        filter: category && `category.id="${category}"` || search && `title~"${search}"`
+    })
+    console.log(data)
+    posts.value = data
+}
+const getCategories = async () => {
+    const data = await pb.collection('categories').getFullList()
+    console.log(data)
+    categories.value = data
+}
+
+onMounted(async () => {
+    await getPosts()
+    await getCategories()
+})
+
+
 </script>
